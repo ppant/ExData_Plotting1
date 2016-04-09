@@ -1,10 +1,11 @@
-## R script for producing plot 1 -- Explorartory data analysis
+## R script for producing plot 2 -- Explorartory data analysis
 ## Author: Pradeep K. Pant
 ## Load CRAN modules 
 library(downloader)
 library(plyr)
 library(knitr)
 library(lubridate)
+
 ## Stpe 1: Download the dataset and unzip folder
 
 ## Check if directory already exists?
@@ -26,11 +27,12 @@ if(!file.exists("./projectData/household_power_consumption.txt")){
 consumDataNew <- read.table("./projectData/household_power_consumption.txt", header =TRUE, sep = ";", stringsAsFactors=FALSE, dec=".",na.strings="?")
 
 ## We need to sub set data frame based on two dates 2007-02-01 and 2007-02-02 (for 1 day)
-## ##DEBUG -- Test --- To do that we need to create date/time objects
-# date1 <- as.Date("01/02/2007","%d/%m/%Y")
-# time1 <- strptime("00:00:00", format = "%H:%M:%S")
-# date2 <- as.Date("02/02/2007","%d/%m/%Y")
-# time2 <- strptime("23:59:59", format = "%H:%M:%S")
+
+## ##DEBUG --- To do that we need to create date/time objects
+## date1 <- as.Date("01/02/2007","%d/%m/%Y")
+## time1 <- strptime("00:00:00", format = "%H:%M:%S")
+## date2 <- as.Date("02/02/2007","%d/%m/%Y")
+## time2 <- strptime("23:59:59", format = "%H:%M:%S")
 
 ## Once we have data frame from the above data start plotting using base plotting system
 ## Test logic 
@@ -38,21 +40,24 @@ consumDataNew <- read.table("./projectData/household_power_consumption.txt", hea
 ##))
 ## subSetDataOndates <- consumDataNew[consumDataNew$Date %in% c("2007-02-01","2007-02-02") ,]
 
-# Subsetting dates on range given in assignment
-subSetDataOndates <- consumDataNew[consumDataNew$Date %in% c("1/2/2007","2/2/2007") ,]
 
+## Subsetting dates on range given in assignment
+subSetDataOndates <- consumDataNew[consumDataNew$Date %in% c("1/2/2007","2/2/2007") ,]
 ## Remove full dataset
 rm(consumDataNew)
 
 ## Test print
 ##str(subSetDataOndates)
 
+## handling date and time .. pick from diff variables and concatenate them
+dateandtime <- strptime(paste(subSetDataOndates$Date, subSetDataOndates$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
+
 ## Make plotting parameter compatible
 globalActivePower <- as.numeric(subSetDataOndates$Global_active_power)
 
 ## Set plot name and dimensions
-png("plot1.png", width = 480, height = 480)
+png("plot2.png", width = 480, height = 480)
 
-# Create histogram
-hist(globalActivePower, col="red", main="Global Active Power", xlab="Global Active Power (kilowatts)")
+## Create final plot with lines type="l"
+plot(dateandtime, globalActivePower, type = "l", main="Global Active Power", ylab="Global Active Power (kilowatts)",xlab = "")
 dev.off()
