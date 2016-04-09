@@ -1,5 +1,5 @@
 ## R script for producing plot 1 -- Explorartory data analysis
-## Author: Pradeep K. Pant
+## Author: Pradeep K. Pant, ppant@cpan.org
 ## Load CRAN modules 
 library(downloader)
 library(plyr)
